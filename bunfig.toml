@@ -1,0 +1,7 @@
+telemetry = false
+
+[install]
+auto = "auto"
+
+[install.lockfile]
+save = true
