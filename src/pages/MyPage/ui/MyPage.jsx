@@ -113,6 +113,7 @@ const MyPage = () => {
 	};
 
 
+햐
 	// 관심있는 아이돌 삭제 함수
 	const deleteIdol = (idol) => {
 		const LocalStorageData = getLocalStorage();
