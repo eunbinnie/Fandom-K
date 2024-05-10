@@ -27,8 +27,8 @@ export const MenuButton = styled.button`
 		$isActive == true ? "#FFFFFF1A" : "inherit"};
 	height: 42px;
 	padding: 12px;
-	width: 100%;
 	border: 0;
+	flex: 1;
 	border-bottom: ${({ $isActive }) =>
 		$isActive == true ? "1px solid white" : null};
 	${buttonStyle};

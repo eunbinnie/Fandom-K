@@ -34,6 +34,20 @@ export const modalDescription = css`
 	line-height: 26px;
 `;
 
+export const headingTitle = css`
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 26px;
+	text-align: left;
+	color: white;
+	@media (width<=1199px) {
+		font-size: 20px;
+	}
+	@media (width<=767px) {
+		font-size: 16px;
+	}
+`;
+
 export const 십이미디엄 = css`
 	font-size: 12px;
 	font-weight: 500;

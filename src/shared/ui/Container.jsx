@@ -30,6 +30,14 @@ export const FlexContainer = styled.div`
 	gap: ${({ $gap }) => $gap};
 `;
 
-export const FlexItemContainer = styled.div`
+export const Spacer = styled.div`
 	flex: ${({ $flex }) => $flex};
+`;
+
+export const Row = styled(FlexContainer)`
+	flex-direction: "row";
+`;
+
+export const Column = styled(FlexContainer)`
+	flex-direction: "column";
 `;

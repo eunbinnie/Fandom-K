@@ -1,68 +1,76 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-export default function useLocalStorage(key, init)
+export default function useLocalStorage(key, fallback)
 {
-	function read()
+	function storage_get()
 	{
-		return JSON.parse(window.localStorage[key] ?? JSON.stringify({ ["value"]: init }))["value"];
+		if (key in localStorage)
+		{
+			return deserialize(localStorage[key]);
+		}
+		return fallback;
 	}
 
-	function write(value)
+	function storage_set(value)
 	{
-		window.localStorage[key] = JSON.stringify({ ["value"]: value });
-	}
-
-	const [value, set_value] = useState(read());
-
-	function setter(new_value)
-	{
-		switch (new_value)
+		switch (value)
 		{
 			case null: case undefined:
 			{
-				delete window.localStorage[key];
+				delete localStorage[key];
 				break;
 			}
 			default:
 			{
-				write(new_value);
+				localStorage[key] = serialize(value);
 				break;
 			}
 		}
-		const [before, after] = [JSON.stringify({ value: value }), JSON.stringify({ value: new_value })];
-
-		window.dispatchEvent(new StorageEvent("local-storage", { key, storageArea: window.localStorage, oldValue: before, newValue: after }));
-
-		set_value(new_value);
 	}
 
-	function onStorage(event)
+	const [value, set_value] = useState(storage_get());
+
+	useEffect(() =>
 	{
-		if (key === event.key && event.oldValue !== event.newValue && event.storageArea === window.localStorage)
+		function onStorage(event)
 		{
-			set_value(read());
+			if (key === event.key && event.oldValue !== event.newValue && event.storageArea === window.localStorage)
+			{
+				set_value(storage_get());
+			}
 		}
-	}
 
-	useEffect(() =>
-	{
-		console.log(value)
-	},
-	[value])
-
-	useEffect(() =>
-	{
 		window.addEventListener("storage", onStorage);
-		return () => window.removeEventListener("storage", onStorage);
-	},
-	[onStorage]);
-
-	useEffect(() =>
-	{
 		window.addEventListener("local-storage", onStorage);
-		return () => window.removeEventListener("local-storage", onStorage);
+
+		return () =>
+		{
+			window.removeEventListener("storage", onStorage);
+			window.removeEventListener("local-storage", onStorage);
+		};
 	},
-	[onStorage]);
+	[]);
+
+	function setter(new_value)
+	{
+		const signal = new_value instanceof Function ? new_value(value) : new_value;
+
+		storage_set(signal);
+
+		window.dispatchEvent(new StorageEvent("local-storage", { key, storageArea: window.localStorage, oldValue: serialize(value), newValue: serialize(signal) }));
+
+		set_value(signal);
+	}
 
 	return [value, setter];
+}
+
+function serialize(value)
+{
+	return JSON.stringify({ ["value"]: value });
+}
+
+function deserialize(value)
+{
+	return JSON.parse(value)["value"];
 }

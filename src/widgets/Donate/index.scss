@@ -225,7 +225,9 @@
 				background: #828282;
 			}
 		}
-		&:has(button:disabled):not(:has(input:placeholder-shown)) {
+		&:has(button:disabled):not(:has(button[data-contribute="0"])):not(
+				:has(input:placeholder-shown)
+			) {
 			.payment {
 				border-color: red;
 				margin-bottom: 36px;

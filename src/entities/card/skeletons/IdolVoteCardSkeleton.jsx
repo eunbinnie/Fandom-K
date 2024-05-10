@@ -1,4 +1,4 @@
-import { FlexContainer } from "@/shared/ui/Container";
+import { Column, FlexContainer, Row } from "@/shared/ui/Container";
 import skeletonStyle from "@/shared/styles/skeletonStyle";
 import styled from "styled-components";
 import { IdolVoteCardContainer } from "../ui/IdolVoteCard";
@@ -35,14 +35,14 @@ const SkeletonVoteBlock = styled.div`
 export default forwardRef(function IdolVoteCardSkeleton(props, ref) {
 	return (
 		<IdolVoteCardContainer $jc="space-between" $ai="center" ref={ref}>
-			<FlexContainer $gap="12px" $ai="center">
+			<Row $gap="12px" $ai="center">
 				<SkeletonImageContainer />
 				<SkeletonIndex />
-				<FlexContainer $fd="column" $gap="4px">
+				<Column $fd="column" $gap="4px">
 					<SkeletonNameBlock />
 					<SkeletonNameBlock />
-				</FlexContainer>
-			</FlexContainer>
+				</Column>
+			</Row>
 			<SkeletonVoteBlock />
 		</IdolVoteCardContainer>
 	);

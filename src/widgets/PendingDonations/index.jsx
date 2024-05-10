@@ -15,34 +15,34 @@ import useViewport from "@/shared/hooks/useViewport";
 export default function PendingDonations() {
 	const { isDesktop, isTablet, isMobile } = useViewport();
 
-	const [idols, set_idols] = useState([]);
+	function get_columns() {
+		return isDesktop ? 4 : isTablet ? 3 : isMobile ? 3 : 0;
+	}
+
 	const [cursor, set_cursor] = useState(null);
-	const [columns, set_columns] = useState(null);
+	const [donations, set_donations] = useState([]);
+	const [columns, set_columns] = useState(get_columns());
 
 	const last_child = useRef();
 
 	useEffect(() => {
-		if (isDesktop) set_columns(4);
-	}, [isDesktop]);
-
-	useEffect(() => {
-		if (isTablet) set_columns(3);
-	}, [isTablet]);
-
-	useEffect(() => {
-		if (isMobile) set_columns(3);
-	}, [isMobile]);
+		set_columns(get_columns());
+	}, [isDesktop, isTablet, isMobile]);
 
 	useEffect(() => {
 		if (columns) {
-			API["{team_name}/donations"]
-				.GET(undefined, { page_size: columns })
+			API["{teamName}/donations"]
+				.GET({ pageSize: columns })
 				.then((response) => {
-					set_idols(response.list);
+					set_donations(response.list);
 					set_cursor(response.nextCursor);
 				});
 		}
 	}, [columns]);
+
+	useEffect(() => {
+		console.log(donations);
+	}, [donations]);
 
 	useEffect(() => {
 		if (cursor) {
@@ -50,10 +50,10 @@ export default function PendingDonations() {
 				(entries, observer) => {
 					for (const entry of entries) {
 						if (entry.isIntersecting) {
-							API["{team_name}/donations"]
-								.GET(undefined, { page_size: columns, cursor: cursor })
+							API["{teamName}/donations"]
+								.GET({ pageSize: columns, cursor: cursor })
 								.then((response) => {
-									set_idols((idols) => [...idols, ...response.list]);
+									set_donations((idols) => [...idols, ...response.list]);
 									set_cursor(
 										response.list.length >= columns
 											? response.nextCursor
@@ -89,18 +89,34 @@ export default function PendingDonations() {
 					<ArrowLeft></ArrowLeft>
 				</Carousel.Button>
 				<Carousel.Slider gap={25}>
-					{[...idols, ...new Array(cursor ? columns : 0).fill(null)].map(
-						(idol, index, array) => {
-							return (
-								<Carousel.Item
-									key={index}
-									ref={index === array.length - 1 ? last_child : null}
-								>
-									<Donate donation={idol}></Donate>
-								</Carousel.Item>
-							);
-						},
-					)}
+					{[
+						...donations,
+						...new Array(
+							cursor ? columns : donations.length ? 0 : columns,
+						).fill(null),
+					].map((donation, index, array) => {
+						return (
+							<Carousel.Item
+								key={index}
+								ref={index === array.length - 1 ? last_child : null}
+							>
+								<Donate
+									donation={donation}
+									onContribute={() => {
+										API["{teamName}/donations"]
+											.GET({ pageSize: 1, priorityIdolIds: [donation.idolId] })
+											.then((response) => {
+												set_donations((donations) => {
+													donations[index] = response.list[0];
+
+													return [...donations];
+												});
+											});
+									}}
+								></Donate>
+							</Carousel.Item>
+						);
+					})}
 				</Carousel.Slider>
 				<Carousel.Button
 					to="next"

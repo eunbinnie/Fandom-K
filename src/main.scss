@@ -9,12 +9,15 @@
 	--orange: #f96d69;
 	--black1: #02000e;
 	--black2: #181d26;
+	--black3: #1b1b1b;
 	--gray1: #67666e;
 	--gray2: #828282;
 	--gray3: #a3a5a8;
 	--white1: #8c92ab;
 	--white2: #f7f7f8;
+	--white3: #f6f6f8;
 	--pink: #fe5493;
+	--brand: linear-gradient(to right, #f77063, #fe5790);
 }
 
 ::-webkit-scrollbar {
@@ -27,6 +30,11 @@ body,
 	width: 100%;
 	user-select: none;
 	touch-action: none;
+}
+
+button {
+	cursor: pointer;
+	font-family: Pretendard;
 }
 
 /* desktop */
@@ -45,5 +53,6 @@ body,
 @media screen and (375px <= width < 768px) {
 	.hide-on-mobile {
 		display: none !important;
+		border-radius: 24px;
 	}
 }

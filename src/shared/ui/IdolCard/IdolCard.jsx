@@ -1,31 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import { SelectContext } from "@/pages/MyPage/ui/MyPage";
 
 import checkIcon from "../../assets/icons/Checkmark.svg";
+import deleteIcon from "@/shared/assets/icons/DeleteIcon.svg";
 
 const IdolCard = (props) => {
-	const { info, padding, onClick, select } = props;
+	const { info, padding, chooseIdol, remove, deleteIdol } = props;
+	const isAddingMode = useContext(SelectContext);
 	const { profilePicture, name, group } = info;
-	const [isSelect, setIsSelect] = useState(select);
+	const [isSelected, setIsSelected] = useState(false);
 
 	useEffect(() => {
-		console.log(select, "effect");
-	}, [isSelect]);
+		if (!isAddingMode) {
+			setIsSelected(false);
+		}
+	}, [isAddingMode]);
 
 	const handleCardClick = () => {
-		setIsSelect(!isSelect);
-		onClick();
+		if (typeof chooseIdol === "function") {
+			setIsSelected(!isSelected);
+			chooseIdol();
+		}
 	};
 
 	return (
 		<Card>
-			<ImgArea padding={padding} onClick={handleCardClick}>
+			<ImgArea
+				padding={padding}
+				pointerEvents={typeof chooseIdol === "function" ? "auto" : "none"}
+				onClick={handleCardClick}
+			>
 				<Img src={profilePicture} />
-				{isSelect && (
+				{isSelected && isAddingMode && (
 					<Check padding={padding}>
-						<CheckIconBox>
+						<CheckIcon>
 							<img src={checkIcon} />
-						</CheckIconBox>
+						</CheckIcon>
 					</Check>
 				)}
 			</ImgArea>
@@ -33,14 +44,20 @@ const IdolCard = (props) => {
 				<Name>{name}</Name>
 				<Group>{group}</Group>
 			</TextArea>
+			{remove && (
+				<DeleteButton onClick={deleteIdol}>
+					<img src={deleteIcon} />
+				</DeleteButton>
+			)}
 		</Card>
 	);
 };
 
-const Card = styled.li`
+const Card = styled.div`
+	position: relative;
 	display: grid;
 	gap: 8px;
-	background-color: #02000e;
+	flex: 0 0 auto;
 `;
 
 const ImgArea = styled.div`
@@ -51,6 +68,11 @@ const ImgArea = styled.div`
 	cursor: pointer;
 	aspect-ratio: 1 / 1;
 	position: relative;
+	pointer-events: ${({ pointerEvents }) => pointerEvents ?? "auto"};
+
+	@media only screen and (max-width: 480px) {
+		padding: 5px;
+	}
 `;
 
 const Check = styled.div`
@@ -68,9 +90,41 @@ const Check = styled.div`
 	justify-content: center;
 	align-items: center;
 	border-radius: 50%;
+
+	@media only screen and (max-width: 480px) {
+		width: calc(100% - 5px * 2);
+		height: calc(100% - 5px * 2);
+		top: 5px;
+		left: 5px;
+	}
 `;
 
-const CheckIconBox = styled.div``;
+const CheckIcon = styled.div`
+	@media only screen and (max-width: 480px) {
+		width: 40px;
+		height: 40px;
+		display: flex;
+	}
+`;
+
+const DeleteButton = styled.button`
+	position: absolute;
+	top: 0;
+	right: 0;
+	border-radius: 50%;
+	background-color: #fff;
+	aspect-ratio: 1 / 1;
+	border: 2.87px solid #02000e;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	@media only screen and (max-width: 480px) {
+		> img {
+			width: 8px;
+		}
+	}
+`;
 
 const Img = styled.img`
 	width: 100%;

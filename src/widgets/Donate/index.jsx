@@ -9,6 +9,7 @@ import { countdown } from "@/shared/utilities/date";
 
 import credit_png from "@/shared/assets/images/credit.png";
 import useLocalStorage from "@/shared/hooks/useLocalStorage";
+import API from "@/shared/api";
 
 const LOCALE = {
 	year: "년",
@@ -26,6 +27,7 @@ export default function Donate(
 		style: {},
 		children: null,
 		/* props */ donation: {},
+		onContribute: () => {},
 	},
 ) {
 	const [time, set_time] = useState(new Date());
@@ -78,7 +80,13 @@ export default function Donate(
 				<div
 					className="button skeleton"
 					onClick={() =>
-						Modal.open(<Donate.Modal donation={props.donation}></Donate.Modal>)
+						Modal.open(
+							<Donate.Modal
+								donation={props.donation}
+								onContribute={props.onContribute}
+							></Donate.Modal>,
+							Modal.close,
+						)
 					}
 				>
 					후원하기
@@ -126,10 +134,11 @@ Donate.Modal = function add(
 		style: {},
 		children: null,
 		/* props */ donation: {},
+		onContribute: () => {},
 	},
 ) {
 	const [credit, set_credit] = useLocalStorage("credit", 0);
-	const [donation, set_donation] = useState(0);
+	const [contribute, set_contribute] = useState(0);
 
 	return (
 		<section data-widget="Donate.Modal">
@@ -144,16 +153,26 @@ Donate.Modal = function add(
 					placeholder="크래딧 입력"
 					type="number"
 					onChange={(event) => {
-						set_donation(Number(event.target.value));
+						set_contribute(Number(event.target.value));
 					}}
 				/>
 				<img className="icon" src={credit_png}></img>
 			</div>
 			<button
 				className="confirm"
-				disabled={!(0 < donation && donation <= credit)}
+				disabled={!(0 < contribute && contribute <= credit)}
+				data-contribute={contribute}
+				//
+				// events
+				//
 				onClick={() => {
-					set_credit(credit - donation);
+					set_credit((credit) => credit - contribute);
+
+					API["{teamName}/donations/{id}/contribute"]
+						.PUT({ id: props.donation.id }, { amount: contribute })
+						.then(() => {
+							props.onContribute?.(contribute);
+						});
 					Modal.close();
 				}}
 			>
