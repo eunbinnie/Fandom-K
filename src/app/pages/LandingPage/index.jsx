@@ -214,10 +214,11 @@ const MainSection = styled.div`
 
 const ContentText = styled.div`
   position: absolute;
-  top: -110px;
-  left: 2px;
-  width: 311px;
+  top: -15%;
+  left: 50%;
+  width: 300px;
   height: 93px;
+	transform: translate(-50%, -50%);
   text-align: center;
 
   h1{
@@ -237,7 +238,6 @@ const ContentText = styled.div`
   }
 
   @media only screen and (max-width: 744px){
-    left: -50px;
     p{
       font-size: 20px;
       line-height: 24px;
@@ -245,7 +245,7 @@ const ContentText = styled.div`
   }
 
   @media only screen and (max-width: 375px){
-		width: 300px;
+
     p{
       font-size: 20px;
       line-height: 24px;
@@ -303,14 +303,12 @@ const MainGradient = styled.div`
 
     ${MainContent}:nth-child(odd){
       ${ContentText}{
-        left: -30px;
         text-align: start;
       }
     }
 
     ${MainContent}:nth-child(even){
       ${ContentText}{
-        left: -30px;
         text-align: end;
       }
     }
