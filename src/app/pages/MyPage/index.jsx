@@ -217,35 +217,10 @@ const MyPage = () => {
 						<section>
 							<Title>내가 관심있는 아이돌</Title>
 							{localStorageData.length > 0 ? (
-								<WideSwiper
-									modules={[Autoplay]}
-									slidesPerView="auto"
-									slidesPerGroup={1}
-									spaceBetween={4}
-									observer={true}
-									observeParents={true}
-									observeSlideChildren={true}
-									loop={true}
-									autoplay={{ delay: 6000 }}
-									breakpoints={{
-										480: {
-											spaceBetween: 24,
-										},
-									}}
-								>
-									{localStorageData.map((idol) => {
-										return (
-											<CustomSlide key={idol.id}>
-												<IdolCard
-													info={idol}
-													padding="7.14"
-													remove={true}
-													deleteIdol={() => deleteIdol(idol)}
-												/>
-											</CustomSlide>
-										);
-									})}
-								</WideSwiper>
+								<IdolWideSwiper
+								localStorageData={localStorageData}
+								deleteIdol={deleteIdol}
+								/>
 							) : (
 								<Text>관심있는 아이돌 목록에 추가해 보세요!</Text>
 							)}
