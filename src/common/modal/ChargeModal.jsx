@@ -4,6 +4,62 @@ import { Modal } from "@/app";
 import useLocalStorage from "@/common/hooks/useLocalStorage";
 import CreditIcon from "@/common/assets/icons/CreditIcon";
 import ModalCancelIcon from "@/common/assets/icons/ModalCancelIcon";
+import ReChargeModal from "./ReChargeModal";
+
+
+
+export default function RadioModal({ options, openModal }) {
+	const [credit, setCredit] = useLocalStorage("credit", 0);
+	const [selectedOption, setSelectedOption] = useState(null);
+
+	const handleOptionChange = (option) => {
+		setSelectedOption(option);
+	};
+
+	const handleCharge = () => {
+		setCredit(credit + selectedOption);
+		let timeVar = setTimeout(Modal.close, 3000);
+		Modal.open(
+			<ReChargeModal
+				options={options}
+				openModal={openModal}
+				timeVar={timeVar}
+				selectedOption={selectedOption}
+			/>
+		);
+	};
+
+	return (
+		<ChargeModal>
+			<Text>크레딧 충전하기</Text>
+			<CloseButton onClick={() => Modal.close()}>
+				<ModalCancelIcon />
+			</CloseButton>
+			<RadioWrapper>
+				{options.map((option, index) => (
+					<RadioLabel key={index}>
+						<ValueWrapper>
+							<CreditIcon />
+							{option}
+						</ValueWrapper>
+						<CustomRadio
+							type="radio"
+							value={option}
+							checked={selectedOption === option}
+							onChange={() => handleOptionChange(option)}
+						/>
+					</RadioLabel>
+				))}
+			</RadioWrapper>
+			<CommonButton
+				disabled={selectedOption === null ? true : false}
+				onClick={handleCharge}
+			>
+				충전하기
+			</CommonButton>
+		</ChargeModal>
+	);
+}
 
 const CloseButton = styled.button`
 	position: absolute;
@@ -19,7 +75,7 @@ const CommonButton = styled.button`
 	height: 42px;
 	border-radius: 3px;
 	border: none;
-	background: linear-gradient(to left, #f86f65, #fe5493);
+	background: ${props => (props.disabled ? '#808080' : 'linear-gradient(to left, #f86f65, #fe5493)')};
 	color: #fff;
 	font-size: 14px;
 	font-weight: 700;
@@ -128,74 +184,3 @@ const TestModal = styled.div`
 		right: 16px;
 	}
 `;
-
-export default function RadioModal({ options, openModal }) {
-	const [credit, setCredit] = useLocalStorage("credit", 0);
-
-	const [selectedOption, setSelectedOption] = useState(null);
-	const [time, setTime] = useState(3);
-
-	const handleOptionChange = (option) => {
-		setSelectedOption(option);
-	};
-
-	const handleReCharge = (timeVar) => {
-		clearTimeout(timeVar);
-		Modal.close;
-		openModal();
-	};
-
-	const handleCharge = () => {
-		setCredit(credit + selectedOption);
-		let timeVar = setTimeout(Modal.close, 3000);
-
-		let intervalId = setInterval(() => {
-			// 1초마다 time을 1씩 감소
-			setTime((prevTime) => prevTime - 1);
-		}, 1000);
-
-		if (time === 0) clearInterval(intervalId); // time이 0이면 중지
-
-		Modal.open(
-			<TestModal>
-				<CloseButton onClick={() => Modal.close()}>
-					<ModalCancelIcon />
-				</CloseButton>
-				<CreditIcon />
-				<Text>
-					<span>{selectedOption}</span>크레딧이 충전되었습니다!
-				</Text>
-				<Text>{time}초 뒤에 자동으로 닫힙니다</Text>
-				<CommonButton onClick={() => handleReCharge(timeVar)}>
-					MoreCharge?
-				</CommonButton>
-			</TestModal>,
-		);
-	};
-
-	return (
-		<ChargeModal>
-			<Text>크레딧 충전하기</Text>
-			<CloseButton onClick={() => Modal.close()}>
-				<ModalCancelIcon />
-			</CloseButton>
-			<RadioWrapper>
-				{options.map((option, index) => (
-					<RadioLabel key={index}>
-						<ValueWrapper>
-							<CreditIcon />
-							{option}
-						</ValueWrapper>
-						<CustomRadio
-							type="radio"
-							value={option}
-							checked={selectedOption === option}
-							onChange={() => handleOptionChange(option)}
-						/>
-					</RadioLabel>
-				))}
-			</RadioWrapper>
-			<CommonButton onClick={handleCharge}>충전하기</CommonButton>
-		</ChargeModal>
-	);
-}
