@@ -379,7 +379,7 @@ const Text = styled.p`
 	word-break: keep-all;
 `;
 
-const WideSwiper = styled(Swiper)`
+const IdolWideSwiper = styled(Swiper)`
 	@media only screen and (max-width: 480px) {
 		width: 100vw;
 	}
