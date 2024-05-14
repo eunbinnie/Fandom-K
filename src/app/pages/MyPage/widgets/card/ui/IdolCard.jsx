@@ -56,6 +56,8 @@ const Card = styled.div`
 `;
 
 const ImgArea = styled.div`
+	width: 100%;
+	height: 100%;
 	border-radius: 50%;
 	border: 1.3px solid #f77063;
 	padding: ${({ padding }) => padding ?? 5}px;
@@ -83,6 +85,8 @@ const DeleteButton = styled.button`
 	align-items: center;
 
 	@media only screen and (max-width: 480px) {
+		width: 22px;
+
 		> img {
 			width: 8px;
 		}
