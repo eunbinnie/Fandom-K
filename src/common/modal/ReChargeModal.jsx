@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Modal } from "@/app";
-import CreditIcon from "@/common/assets/icons/CreditIcon";
 import ModalCancelIcon from "@/common/assets/icons/ModalCancelIcon";
 import RadioModal from "./ChargeModal";
+import BigCreditIcon from "../assets/icons/BigCreditIcon";
 
 export default function ReChargeModal({
 	options,
@@ -43,7 +43,7 @@ export default function ReChargeModal({
 			>
 				<ModalCancelIcon />
 			</CloseButton>
-			<CreditIcon />
+			<BigCreditIcon />
 			<Text>
 				<span>{selectedOption}</span>크레딧이 충전되었습니다!
 			</Text>

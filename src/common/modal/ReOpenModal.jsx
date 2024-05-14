@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Modal } from "@/app";
-import CreditIcon from "@/common/assets/icons/CreditIcon";
 import ModalCancelIcon from "@/common/assets/icons/ModalCancelIcon";
+import BigCreditIcon from "../assets/icons/BigCreditIcon";
 
 export default function ReOpenModal({
 	children,
@@ -13,7 +13,7 @@ export default function ReOpenModal({
 			<CloseButton onClick={() => Modal.instance.close()}>
 				<ModalCancelIcon />
 			</CloseButton>
-			<CreditIcon />
+			<BigCreditIcon />
 			{children}
 			<CommonButton onClick={handleReOpen}>
 				{buttonDescription ? buttonDescription : "다시 하시겠습니까?"}
