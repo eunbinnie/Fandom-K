@@ -1,0 +1,35 @@
+[data-widget="Carousel"]
+{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+[data-widget="Carousel.Item"]
+{
+	// TODO: none
+}
+
+[data-widget="Carousel.Button"]
+{
+	// TODO: none
+}
+
+[data-widget="Carousel.Slider"]
+{
+	width: 100%;
+	overflow: hidden;
+
+	> .container
+	{
+		width: 100%;
+		display: flex;
+		transition: transform 250ms ease-in-out;
+		will-change: transform;
+
+		> [data-widget="Carousel.Item"]
+		{
+			flex-shrink: 0;
+		}
+	}
+}

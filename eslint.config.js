@@ -32,7 +32,9 @@ export default
 			//
 			// custom rules
 			//
-			"react/react-in-jsx-scope": "off",
+			"react/prop-types": ["off", {}],
+			"react/react-in-jsx-scope": ["off", {}],
+			"react/no-unknown-property": ["error", { ignore: ["class"] }],
 		},
 		plugins:
 		{

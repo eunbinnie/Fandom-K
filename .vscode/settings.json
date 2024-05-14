@@ -15,4 +15,6 @@
 	// terminal
 	//
 	"terminal.integrated.defaultProfile.windows": "Command Prompt",
+
+	"cSpell.enabled":false
 }

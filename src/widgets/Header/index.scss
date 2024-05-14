@@ -1,0 +1,63 @@
+@media screen
+{
+	[data-widget="Header"]
+	{
+		width: 100%;
+		display: flex;
+		justify-content: center;
+
+		> .container
+		{
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			> .left, .right
+			{
+				width: 32px;
+				height: 32px;
+			}
+		}
+	}
+}
+// desktop
+@media screen and (1200px <= width)
+{
+	[data-widget="Header"]
+	{
+		> .container
+		{
+			height: 80px;
+			max-width: 1200px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+}
+// tablet
+@media screen and (768px <= width < 1200px)
+{
+	[data-widget="Header"]
+	{
+		> .container
+		{
+			height: 80px;
+			margin-left: 24px;
+			margin-right: 24px;
+		}
+	}
+}
+// mobile
+@media screen and (375px <= width < 768px)
+{
+	[data-widget="Header"]
+	{
+		> .container
+		{
+			height: 80px;
+			margin-left: 24px;
+			margin-right: 24px;
+		}
+	}
+}

@@ -1,0 +1,67 @@
+@media screen
+{
+	[data-widget="PendingDonations"]
+	{
+		> [data-widget="Carousel"]
+		{
+			gap: 10px;
+			position: relative;
+
+			> [data-widget="Carousel.Button"]
+			{
+				width: 40px;
+				height: 80px;
+				display: flex;
+				position: absolute;
+				flex-grow: 0;
+				flex-shrink: 0;
+				align-items: center;
+				justify-content: center;
+				border-radius: 6.5px;
+				background-color: #1B1B1BCC;
+
+				&:hover
+				{
+					background-color: #3d3d3dcc;
+				}
+			}
+			> [data-widget="Carousel.Slider"]
+			{
+				border-radius: 8px 8px 0px 0px;
+			}
+		}
+	}
+}
+// desktop
+@media screen and (1200px <= width <= 1440px)
+{
+	[data-widget="PendingDonations"]
+	{
+		> [data-widget="Carousel"]
+		{
+			margin: 0px 80px;
+		}
+	}
+}
+// tablet
+@media screen and (768px <= width < 1200px)
+{
+	[data-widget="PendingDonations"]
+	{
+		> [data-widget="Carousel"]
+		{
+			width: 125%;
+		}
+	}
+}
+// mobile
+@media screen and (375px <= width < 768px)
+{
+	[data-widget="PendingDonations"]
+	{
+		> [data-widget="Carousel"]
+		{
+			width: 125%;
+		}
+	}
+}
