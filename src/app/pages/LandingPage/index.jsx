@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import useLocalStorage from "@/common/hooks/useLocalStorage";
 import styled from "styled-components";
 import LogoImage from "@/common/assets/images/HeaderLogo.svg";
 import ContentImage1 from "@/common/assets/images/MainContent_1.png";
@@ -12,6 +13,13 @@ import { PinkButton } from "@/common/ui/Button";
 
 export default function LandingPage() {
 	const navigate = useNavigate();
+	const [credit, setCredit] = useLocalStorage("credit", 0);
+
+	const resetMove = () => {
+		navigate("/list");
+		setCredit(0);
+	}
+
 	return (
 		<Container>
 			<Header>
@@ -20,8 +28,8 @@ export default function LandingPage() {
 					내가 좋아하는 아이돌을<br></br>
 					가장 <span>쉽게 덕질</span> 하는 방법
 				</HeaderTitle>
-				<HeaderLogo src={LogoImage} alt='헤더로고' />
-				<HeaderButton onClick={() => navigate("/list")}>지금 시작하기</HeaderButton>
+				<HeaderLogo src={LogoImage} alt='헤더로고' onClick={() => navigate("/list")}/>
+				<HeaderButton onClick={resetMove}>지금 시작하기</HeaderButton>
 			</Header>
 			<Main>
 				<MainGradient>
@@ -140,6 +148,7 @@ const HeaderLogo = styled.img`
   margin-top: 29px;
   width: 509px;
 	height: 97px;
+	cursor: pointer;
 
   @media only screen and (max-width: 744px){
     margin-top: 32px;
