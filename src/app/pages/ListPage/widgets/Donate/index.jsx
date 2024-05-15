@@ -10,6 +10,7 @@ import { countdown } from "@/common/utilities/date";
 import credit_png from "@/common/assets/images/credit.png";
 import useLocalStorage from "@/common/hooks/useLocalStorage";
 import API from "@/common/api";
+import ModalCancelIcon from "@/common/assets/icons/ModalCancelIcon";
 
 const LOCALE = {
 	year: "년",
@@ -136,7 +137,10 @@ Donate.Modal = function add(
 
 	return (
 		<section data-widget="Donate.Modal">
-			<div className="heading">후원하기</div>
+			<div className="heading">
+				후원하기
+				<ModalCancelIcon onClick={() => Modal.instance.close()}></ModalCancelIcon>
+			</div>
 			<div className="portrait" onClick={() => set_credit(credit + 100)}>
 				<img src={props.donation.idol.profilePicture}></img>
 				<div className="title">{props.donation.title}</div>
