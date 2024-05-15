@@ -16,18 +16,21 @@ export default function RadioModal({ options, openModal }) {
 
 	const handleCharge = () => {
 		setCredit(credit + selectedOption);
-		let timeVar = setTimeout(Modal.instance.close, 3000);
+
 		const modal = new Modal(
 			(
 				<ReChargeModal
 					options={options}
 					openModal={openModal}
-					timeVar={timeVar}
 					selectedOption={selectedOption}
 				/>
 			),
 		);
 		modal.open();
+
+		setTimeout(() => {
+			modal.close();
+		}, 1000 * 3);
 	};
 
 	return (

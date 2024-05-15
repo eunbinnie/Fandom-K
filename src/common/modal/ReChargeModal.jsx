@@ -5,23 +5,16 @@ import ModalCancelIcon from "@/common/assets/icons/ModalCancelIcon";
 import RadioModal from "./ChargeModal";
 import BigCreditIcon from "../assets/icons/BigCreditIcon";
 
-export default function ReChargeModal({
-	options,
-	openModal,
-	timeVar,
-	selectedOption,
-}) {
+export default function ReChargeModal({ options, openModal, selectedOption }) {
 	const [count, setCount] = useState(3);
 	const interval = useRef();
 
-	const handleReCharge = (timeVar) => {
-		clearTimeout(timeVar);
+	const handleReCharge = () => {
 		Modal.instance.close();
 		new Modal(<RadioModal options={options} openModal={openModal} />).open();
 	};
 
-	const handleClose = (timeVar) => {
-		clearTimeout(timeVar);
+	const handleClose = () => {
 		Modal.instance.close();
 	};
 
@@ -38,7 +31,7 @@ export default function ReChargeModal({
 		<TestModal>
 			<CloseButton
 				onClick={() => {
-					handleClose(timeVar);
+					handleClose();
 				}}
 			>
 				<ModalCancelIcon />
@@ -50,7 +43,7 @@ export default function ReChargeModal({
 			<Text>{count}초 뒤에 자동으로 닫힙니다</Text>
 			<CommonButton
 				onClick={() => {
-					handleReCharge(timeVar);
+					handleReCharge();
 				}}
 			>
 				MoreCharge?

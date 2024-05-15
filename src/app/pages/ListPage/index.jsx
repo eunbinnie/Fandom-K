@@ -64,7 +64,7 @@ const Container = styled.main`
 	display: flex;
 	justify-content: center;
 	padding-bottom: 243px;
-	overflow: auto;
+	overflow: hidden;
 	@media (width<=1199px) {
 		padding-bottom: 330px;
 		padding-inline: 20px;
@@ -79,10 +79,10 @@ const Page = styled.div`
 	display: flex;
 	flex-direction: column;
 	background-color: #02000e;
-	max-width: 1200px;
-	width: 100%;
-	padding-left: 24px;
-	padding-right: 24px;
+	width: 1200px;
+	@media (width<=1199px) {
+		width: 100%;
+	}
 `;
 
 const Segment = styled(Column)`
