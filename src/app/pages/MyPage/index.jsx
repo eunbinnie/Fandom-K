@@ -49,6 +49,7 @@ const MyPage = () => {
 	const [dataCount, setDataCount] = useState(
 		changeDataCount(window.innerWidth),
 	);
+	const [selectedIdols, setSelectedIdols] = useState([]);
 
 	// 보이는 아이템 수 변경하는 함수
 	const flattenArray = () => {
@@ -87,8 +88,14 @@ const MyPage = () => {
 
 	// 아이돌 목록에서 체크하면 관심있는 아이돌 state 업데이트
 	const handleClickIdolList = (target) => {
-		// localStorage에 저장된 데이터
 		setIsAddingMode(true);
+		setSelectedIdols((prev) => {
+			if (prev.includes(target.id)) {
+				return prev.filter((id) => id !== target.id);
+			} else {
+				return [...prev, target.id];
+			}
+		});
 
 		setInterestIdols((prev) => {
 			if (!prev.some((item) => item.id === target.id)) {
@@ -120,7 +127,6 @@ const MyPage = () => {
 			const nextCursor = list.nextCursor;
 			const secondList = await getIdols(dataCount, nextCursor);
 			setIsLoading(false);
-
 			setNextCursor(secondList.nextCursor);
 			setIdolPageData([list, secondList]);
 		} catch (error) {
@@ -156,6 +162,11 @@ const MyPage = () => {
 		} catch (error) {
 			console.error("Error fetching idols:", error);
 		}
+	};
+
+	const addIdols = () => {
+		setLocalStorage(interestIdols);
+		setSelectedIdols([]);
 	};
 
 	useEffect(() => {
@@ -222,10 +233,11 @@ const MyPage = () => {
 								}}
 								handleSlideChange={handleSlideChange}
 								handleClickIdolList={handleClickIdolList}
+								selectedIdols={selectedIdols}
 							/>
 						</section>
 
-						<Button onClick={() => setLocalStorage(interestIdols)}>
+						<Button onClick={addIdols}>
 							<Icon>
 								<img src={plusIcon} alt="+" />
 							</Icon>

@@ -7,20 +7,12 @@ import Check from "@/common/ui/Check";
 import deleteIcon from "@/common/assets/icons/DeleteIcon.svg";
 
 const IdolCard = (props) => {
-	const { info, padding, chooseIdol, remove, deleteIdol } = props;
+	const { info, padding, chooseIdol, remove, deleteIdol, isSelected } = props;
 	const isAddingMode = useContext(SelectContext);
 	const { profilePicture, name, group } = info;
-	const [isSelected, setIsSelected] = useState(false);
-
-	useEffect(() => {
-		if (!isAddingMode) {
-			setIsSelected(false);
-		}
-	}, [isAddingMode]);
 
 	const handleCardClick = () => {
 		if (typeof chooseIdol === "function") {
-			setIsSelected(!isSelected);
 			chooseIdol();
 		}
 	};

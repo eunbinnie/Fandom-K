@@ -21,6 +21,7 @@ const IdolSwiper = (props) => {
 		nextCursorProps,
 		handleSlideChange,
 		handleClickIdolList,
+		selectedIdols,
 	} = props;
 
 	const { nextCursor, setNextCursor } = nextCursorProps;
@@ -77,6 +78,7 @@ const IdolSwiper = (props) => {
 											info={idol}
 											padding="6.48"
 											chooseIdol={() => handleClickIdolList(idol)}
+											isSelected={selectedIdols.includes(idol.id)}
 										/>
 									))}
 								</IdolList>
